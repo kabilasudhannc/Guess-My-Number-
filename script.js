@@ -8,7 +8,7 @@
 // document.querySelector('.score').textContent = 10;
 
 // document.querySelector('.guess').value = 13;
-let ComputerGuess = Math.round(Math.random() * 20) + 1;
+let ComputerGuess = Math.trunc(Math.random() * 20) + 1;
 // console.log(ComputerGuess);
 
 document.querySelector('.check').addEventListener('click', function () {
@@ -18,12 +18,12 @@ document.querySelector('.check').addEventListener('click', function () {
     let messageDocument = document.querySelector('.message');
     let currentScore = Number(document.querySelector('.score').textContent);
 
-    if (currentScore === 0) {
-        messageDocument.textContent = '💔 You ranout of Life! Reload And Try Again...';
-        document.querySelector('.body').style.backgroundColor = 'red';
-    }
+    // if (currentScore === 0) {
+    //     messageDocument.textContent = '💔 You ranout of Life! Reload And Try Again...';
+    //     document.querySelector('.body').style.backgroundColor = 'red';
+    // }
 
-    else if (!guess) messageDocument.textContent = '⛔️ No Number!';
+    if (!guess) messageDocument.textContent = '⛔️ No Number!';
 
     else if (guess < 0 || guess > 20) messageDocument.textContent = '🙉 Enter a Number Between given Range';
 
@@ -36,16 +36,33 @@ document.querySelector('.check').addEventListener('click', function () {
     }
 
     else if (guess < ComputerGuess) {
-        messageDocument.textContent = '📉 Your Guess is Low Try Greater Number!';
-        currentScore--;
-        document.querySelector('.score').textContent = currentScore;
 
+        if (currentScore > 1) {
+            messageDocument.textContent = '📉 Your Guess is Low Try Greater Number!';
+            currentScore--;
+            document.querySelector('.score').textContent = currentScore;
+        }
+
+        else {
+            document.querySelector('.score').textContent = 0;
+            messageDocument.textContent = '💔 You ranout of Life! Reload And Try Again...';
+            document.querySelector('.body').style.backgroundColor = 'red';
+        }
     }
 
     else if (guess > ComputerGuess) {
-        messageDocument.textContent = '📈 Your Guess is High Try Lower Number!';
-        currentScore--;
-        document.querySelector('.score').textContent = currentScore;
+
+        if (currentScore > 1) {
+            messageDocument.textContent = '📈 Your Guess is High Try Lower Number!';
+            currentScore--;
+            document.querySelector('.score').textContent = currentScore;
+        }
+
+        else {
+            document.querySelector('.score').textContent = 0;
+            messageDocument.textContent = '💔 You ranout of Life! Reload And Try Again...';
+            document.querySelector('.body').style.backgroundColor = 'red';
+        }
     }
 });
 
